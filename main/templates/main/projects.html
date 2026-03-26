@@ -1,0 +1,223 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+  /* Background */
+  body {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(8, 34, 89, 0.8)),
+                url("{% static 'images/background.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+  }
+
+  /* Heading */
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #09080b, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Card */
+  .card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+  }
+
+  .card img {
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .card-body {
+    color: #fff;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Glass Glow Button */
+  .btn-primary {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    backdrop-filter: blur(8px);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  
+.btn-primary:hover {
+  background: #1d4ed8; /* darker blue */
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.4);
+  transform: translateY(-2px);
+}
+  /* Glow border animation */
+  .btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    padding: 1px;
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                  linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: 0.3s;
+  }
+
+  .btn-primary:hover::before {
+    opacity: 1;
+  }
+
+  /* Row spacing */
+  .row {
+    row-gap: 30px;
+  }
+
+  
+/* ===== 3D BUBBLES ===== */
+.bubbles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* 3D bubble style */
+.bubbles span {
+  position: absolute;
+  bottom: -120px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff88, #38bdf855, transparent);
+  box-shadow: 
+    inset -5px -10px 20px rgba(255,255,255,0.3),
+    inset 5px 10px 25px rgba(119, 19, 19, 0.3),
+    0 0 20px rgba(56,189,248,0.4);
+  animation: floatUp linear infinite;
+}
+
+/* Different sizes */
+.bubbles span:nth-child(1){left:10%; width:40px;height:40px;animation-duration:12s;}
+.bubbles span:nth-child(2){left:20%; width:20px;height:20px;animation-duration:18s;}
+.bubbles span:nth-child(3){left:35%; width:50px;height:50px;animation-duration:14s;}
+.bubbles span:nth-child(4){left:50%; width:25px;height:25px;animation-duration:20s;}
+.bubbles span:nth-child(5){left:65%; width:45px;height:45px;animation-duration:16s;}
+.bubbles span:nth-child(6){left:75%; width:22px;height:22px;animation-duration:22s;}
+.bubbles span:nth-child(7){left:85%; width:55px;height:55px;animation-duration:13s;}
+.bubbles span:nth-child(8){left:95%; width:18px;height:18px;animation-duration:17s;}
+.bubbles span:nth-child(9){left:40%; width:28px;height:28px;animation-duration:19s;}
+.bubbles span:nth-child(10){left:55%; width:35px;height:35px;animation-duration:15s;}
+
+/* Animation */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-120vh) scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* Animations */
+@keyframes scrollSkills {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   SECTION TITLE (3D GRADIENT EFFECT)
+================================ */
+.section-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: bold;
+  font-size: 2.7rem;
+
+  /* Gradient text */
+  background: linear-gradient(90deg, #38bdf8, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* 3D Depth */
+  text-shadow:
+    1px 1px 0 rgba(0,0,0,0.2),
+    2px 2px 0 rgba(0,0,0,0.2),
+    3px 3px 8px rgba(0,0,0,0.4),
+    0 0 15px rgba(56,189,248,0.6);
+
+  display: inline-block;
+  perspective: 800px;
+  transition: all 0.4s ease;
+}
+
+
+</style>
+
+<h2 class="section-title">My Projects</h2>
+
+<div class="row">
+  {% for project in projects %}
+    <div class="col-md-4 d-flex">
+      <div class="card mb-4 w-100">
+
+        {% if project.image %}
+          <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+        {% endif %}
+
+        <div class="card-body">
+          <div>
+            <h5>{{ project.title }}</h5>
+            <p>{{ project.description }}</p>
+          </div>
+
+          {% if project.link %}
+            <a href="{{ project.link }}" target="_blank" class="btn btn-primary mt-2">
+              🔗 View Project
+            </a>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  {% endfor %}
+</div>
+<div class="bubbles">
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+
+{% endblock %}

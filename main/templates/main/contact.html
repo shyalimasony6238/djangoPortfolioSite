@@ -1,0 +1,204 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% if messages %}
+  {% for message in messages %}
+    <div style="padding:10px; background:green; color:white; margin-bottom:10px;">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<style>
+  /* SAME BACKGROUND AS PROJECT PAGE */
+  body {
+    background: linear-gradient(rgba(2,6,23,0.85), rgba(15,23,42,0.9)),
+                url("{% static 'images/background.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+  }
+
+  /* CENTER CONTAINER */
+  .contact-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+  }
+
+  /* GLASS CARD */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 35px;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    transition: 0.3s ease;
+    animation: fadeInUp 1s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+  }
+
+  /* HEADING */
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* INPUTS */
+  .form-control {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px;
+    transition: 0.3s;
+  }
+
+  .form-control::placeholder {
+    color: #bbb;
+  }
+
+  .form-control:focus {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid #4facfe;
+    box-shadow: 0 0 10px rgba(79,172,254,0.6);
+    color: #fff;
+  }
+
+  /* BUTTON (MATCH PROJECT STYLE) */
+  .btn-success {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    backdrop-filter: blur(8px);
+    transition: 0.3s;
+  }
+
+  .btn-success:hover {
+    background: #1d4ed8;
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .btn-success::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    padding: 1px;
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                  linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity:0.5;
+    transition: 0.3s;
+  }
+
+  .btn-success:hover::before {
+    opacity: 1;
+  }
+
+  /* ===== SAME 3D BUBBLES ===== */
+  .bubbles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .bubbles span {
+    position: absolute;
+    bottom: -120px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff88, #38bdf855, transparent);
+    box-shadow: 
+      inset -5px -10px 20px rgba(255,255,255,0.3),
+      inset 5px 10px 25px rgba(119, 19, 19, 0.3),
+      0 0 20px rgba(56,189,248,0.4);
+    animation: floatUp linear infinite;
+  }
+
+  .bubbles span:nth-child(1){left:10%; width:40px;height:40px;animation-duration:12s;}
+  .bubbles span:nth-child(2){left:20%; width:20px;height:20px;animation-duration:18s;}
+  .bubbles span:nth-child(3){left:35%; width:50px;height:50px;animation-duration:14s;}
+  .bubbles span:nth-child(4){left:50%; width:25px;height:25px;animation-duration:20s;}
+  .bubbles span:nth-child(5){left:65%; width:45px;height:45px;animation-duration:16s;}
+  .bubbles span:nth-child(6){left:75%; width:22px;height:22px;animation-duration:22s;}
+  .bubbles span:nth-child(7){left:85%; width:55px;height:55px;animation-duration:13s;}
+  .bubbles span:nth-child(8){left:95%; width:18px;height:18px;animation-duration:17s;}
+  .bubbles span:nth-child(9){left:40%; width:28px;height:28px;animation-duration:19s;}
+  .bubbles span:nth-child(10){left:55%; width:35px;height:35px;animation-duration:15s;}
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translateY(-120vh) scale(1.3);
+      opacity: 0;
+    }
+  }
+
+  /* ENTRY ANIMATION */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+</style>
+
+<div class="contact-container">
+  <div class="glass-card">
+    <h2>Contact Me</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <input class="form-control mb-3" type="text" name="name" placeholder="Your Name" required>
+      <input class="form-control mb-3" type="email" name="email" placeholder="Your Email" required>
+      <textarea class="form-control mb-3" name="message" placeholder="Message" rows="4" required></textarea>
+
+      <button class="btn btn-success">Send</button>
+    </form>
+  </div>
+</div>
+
+<!-- SAME BUBBLES -->
+<div class="bubbles">
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+
+{% if whatsapp_url %}
+<script>
+  setTimeout(function(){
+    window.location.href = "{{ whatsapp_url }}";
+  }, 2000);
+</script>
+{% endif %}
+
+{% endblock %}
