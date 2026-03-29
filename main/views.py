@@ -33,7 +33,7 @@ def contact(request):
         )
 
         # WhatsApp number
-        phone_number = "971586155038"
+        phone_number = "6238031020"
 
         # Correct message format
         whatsapp_message = f"New Contact Message:\nName: {name}\nEmail: {email}\nMessage: {message}"
