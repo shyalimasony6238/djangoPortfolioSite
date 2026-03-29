@@ -175,7 +175,7 @@
   <div class="glass-card">
     <h2>Contact Me</h2>
 
-    <form method="POST">
+    <form method="POST" action="{% url 'contact' %}">
       {% csrf_token %}
 
       <input class="form-control mb-3" type="text" name="name" placeholder="Your Name" required>
